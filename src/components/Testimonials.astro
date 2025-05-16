@@ -1,0 +1,127 @@
+---
+import Image from '../common/Image.astro';
+import {getTestimonials} from "../hooks";
+
+type Params = {
+  apiUrl: string;
+  apiToken: string;
+}
+
+const {apiUrl, apiToken} = Astro.params as Params;
+
+const testimonials = await getTestimonials(apiUrl, apiToken);
+---
+
+<Fragment>
+  <div class="container !overflow-x-visible pb-8 md:pb-[94px]">
+    <div class="flex flex-col">
+      <h2 class="header-title text-center mb-4 sm:mb-6 md:mb-[67px]">O‘quvchilarning fikrlari</h2>
+      <div>
+        <div class="flex flex-row flex-nowrap overflow-x-auto gap-4 md:gap-[34px] slideshow-scrollbar">
+          {
+            testimonials.map((i, index) => (
+              <Fragment>
+                <div
+                  data-modal={'modal-' + index}
+                  data-video-id={i.youtube}
+                  data-video-title={i.video_title}
+                  class="cursor-pointer relative w-[220px] h-[420px] md:w-[280px] md:h-[500px] rounded-[35px] overflow-hidden object-cover flex-shrink-0"
+                >
+                  <div class="absolute cursor-pointer z-10 flex items-center justify-center text-white w-[61px] h-[61px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-full bg-[#FFFFFF6B]">
+                    <svg width="27" height="30" viewBox="0 0 27 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M24.4387 11.5361C27.1053 13.0757 27.1053 16.9247 24.4387 18.4643L6.7456 28.6794C4.07894 30.219 0.745606 28.2945 0.745606 25.2153L0.745607 4.78514C0.745607 1.70594 4.07894 -0.218565 6.74561 1.32104L24.4387 11.5361Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </div>
+                  <Image
+                    class="w-auto max-w-max h-full !max-h-full absolute left-1/2 -translate-x-1/2 top-0"
+                    widths={[400, 768, 1024, 2040]}
+                    sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+                    loading="lazy"
+                    width={380}
+                    src={i.image}
+                    alt={i.name.toLowerCase().replace(/ /g, '_').replace("'", '')}
+                  />
+                  <div class="absolute text-primary text-lg bottom-[35px] left-1/2 -translate-x-1/2 rounded-full bg-[#FFFFFF] px-5 py-1.5 inline-flex items-center">
+                    <span class="ml-[5px] font-bold">{i.name}</span>
+                  </div>
+                </div>
+              </Fragment>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  {
+    testimonials.map((_i, index) => (
+      <div id={'modal-' + index} class="hidden fixed w-full h-full z-50 bg-black/60 top-0 left-0">
+        <div class="w-full h-full flex items-center justify-center" data-modal-content />
+        <span data-close class="absolute right-5 top-5 text-white text-2xl cursor-pointer">
+          &#x2715;
+        </span>
+      </div>
+    ))
+  }
+</Fragment>
+<script is:inline>
+  function initModals() {
+    const testimonials = document.querySelectorAll('[data-modal]');
+    testimonials.forEach((testimonial) => {
+      testimonial.addEventListener('click', () => {
+        const modal = document.getElementById(testimonial?.dataset.modal);
+        if (modal) {
+          const modalContent = modal.querySelector('[data-modal-content]');
+          if (modal.classList.contains('hidden')) {
+            const iframe = document.createElement('iframe');
+            iframe.className = 'w-full lg:w-2/3 mx-4 md:max-h-full max-h-[450px] rounded-xl relative overflow-hidden';
+            iframe.src = 'https://www.youtube.com/embed/' + testimonial?.dataset.videoId;
+            iframe.frameBorder = '0';
+            iframe.title = testimonial?.dataset.videoTitle;
+            iframe.allowFullscreen = true;
+            iframe.height = '640px';
+            iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+            iframe.allow =
+              'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            modalContent?.append(iframe);
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+          } else {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            const iframe = modal.querySelector('iframe');
+            if (iframe) {
+              iframe.remove();
+            }
+          }
+          const close = modal.querySelector('span[data-close]');
+          close?.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            const iframe = modal.querySelector('iframe');
+            if (iframe) {
+              iframe.remove();
+            }
+          });
+          modalContent?.addEventListener('click', (event) => {
+            if (!modalContent.querySelector('iframe').contains(event.target)) {
+              modal.classList.add('hidden');
+              document.body.classList.remove('overflow-hidden');
+              const iframe = modal.querySelector('iframe');
+              if (iframe) {
+                iframe.remove();
+              }
+            }
+          });
+        }
+      });
+    });
+  }
+
+  initModals();
+  document.addEventListener('astro:after-swap', () => {
+    initModals();
+  });
+</script>

@@ -1,0 +1,27 @@
+{
+  "name": "englify-astro-shared-ui",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "exports": {
+    "./Testimonials": "./src/components/Testimonials.astro",
+    "./Footer": "./src/components/Footer.astro"
+  },
+  "devDependencies": {
+    "@astrojs/compiler": "^2.12.0",
+    "@astrolib/seo": "^1.0.0-beta.6",
+    "astro": "^4.15.5",
+    "typescript": "^5.8.3",
+    "unpic": "^3.18.0"
+  },
+  "peerDependencies": {
+    "astro": "^4.15.5"
+  },
+  "types": "src/index.ts"
+}
