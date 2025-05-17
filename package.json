@@ -1,14 +1,14 @@
 {
-  "name": "englify-astro-shared-ui",
+  "name": "@ismoiljon.khakimjonov/englify-astro-shared-ui",
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ismoiljon Khakimjonov",
   "license": "ISC",
-  "description": "",
+  "description": "shared sections",
   "exports": {
     "./Testimonials": "./src/components/Testimonials.astro"
   },
@@ -22,5 +22,13 @@
   "peerDependencies": {
     "astro": "^4.15.5"
   },
-  "types": "src/index.ts"
+  "types": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RC4347/englify-astro-shared-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RC4347/englify-astro-shared-ui/issues"
+  },
+  "homepage": "https://github.com/RC4347/englify-astro-shared-ui#readme"
 }
