@@ -10,8 +10,7 @@
   "license": "ISC",
   "description": "",
   "exports": {
-    "./Testimonials": "./src/components/Testimonials.astro",
-    "./Footer": "./src/components/Footer.astro"
+    "./Testimonials": "./src/components/Testimonials.astro"
   },
   "devDependencies": {
     "@astrojs/compiler": "^2.12.0",
