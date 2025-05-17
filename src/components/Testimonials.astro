@@ -1,12 +1,12 @@
 ---
 import {getTestimonials} from "../hooks";
 
-type Params = {
+type Props = {
   apiUrl: string;
   apiToken: string;
 }
 
-const {apiUrl, apiToken} = Astro.params as Params;
+const {apiUrl, apiToken} = Astro.props as Props;
 
 const testimonials = await getTestimonials(apiUrl, apiToken);
 ---
