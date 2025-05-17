@@ -1,5 +1,4 @@
 ---
-import Image from '../common/Image.astro';
 import {getTestimonials} from "../hooks";
 
 type Params = {
@@ -35,10 +34,8 @@ const testimonials = await getTestimonials(apiUrl, apiToken);
                       />
                     </svg>
                   </div>
-                  <Image
+                  <img
                     class="w-auto max-w-max h-full !max-h-full absolute left-1/2 -translate-x-1/2 top-0"
-                    widths={[400, 768, 1024, 2040]}
-                    sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
                     loading="lazy"
                     width={380}
                     src={i.image}
